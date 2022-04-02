@@ -13,3 +13,4 @@ Generates OSM files for post offices, parcel lockers and post boxes of Posten No
 
 * [Posten API](http://public.snws.posten.no/SalgsnettServicePublic.asmx).
 * [Posten map of locations](https://www.posten.no/kart).
+* [OpenStreetMap import plan](https://wiki.openstreetmap.org/wiki/Import/Catalogue/Post_office_import_Norway).
