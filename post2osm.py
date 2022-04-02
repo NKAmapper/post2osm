@@ -13,7 +13,7 @@ import urllib.request
 from xml.etree import ElementTree
 
 
-version = "1.0.0"
+version = "1.1.0"
 
 
 transform_name = [
@@ -166,7 +166,6 @@ def process_post_offices():
 				make_osm_line ("GEOCODE", "yes")
 
 			make_osm_line ("ref:posten", office.find('ns0:Enhetsnr', ns).text)
-#			make_osm_line ("posten:id", office.find('ns0:IDEnhet', ns).text)
 			make_osm_line ("brand", "Posten")
 
 			# Get address
@@ -219,21 +218,23 @@ def process_post_offices():
 				name = name.replace("Post i Butikk", "post i butikk")
 				alt_name = operator + " post i butikk"
 				make_osm_line ("amenity", "post_office")
-				make_osm_line("post_office", "post_partner")
+				make_osm_line("post_office", "post_annex")
 
 			elif office_type == "19":  # Pakkeutlevering
 				name = name.replace("Posten ", "")
 				alt_name = operator + " pakkeutlevering"
 				make_osm_line ("amenity", "post_office")
-				make_osm_line("post_office", "post_partner")
+				make_osm_line("post_office", "post_annex")
 
-			elif office_type == "32":  # Postpunkt (egendrevet)
-				make_osm_line ("amenity", "post_office")
+			elif office_type == "32":  # Postpunkt (operated by Posten)
 				operator = "Posten"
+				make_osm_line ("amenity", "post_office")
+				make_osm_line("post_office", "bureau")
 
 			elif office_type == "33":  # Postpunkt
 				alt_name = operator + " postpunkt"
 				make_osm_line ("amenity", "post_office")
+				make_osm_line("post_office", "post_annex")
 
 #			elif office_type == "36":  # Pakkeautomat (not used anymore?)
 #				name = name.replace('Post i Butikk', 'post i butikk')
@@ -267,7 +268,7 @@ def process_post_offices():
 					make_osm_line("opening_hours", opening_hours(hours))
 					break
 
-			# Wheelchair (not complete)
+			# Wheelchair (data not complete)
 
 #			for service in office.iterfind('ns0:Tjenester/ns0:TjenesteDTO', ns):
 #				if "rullestol" in service.find('ns0:Navn', ns).text:
@@ -340,10 +341,9 @@ def process_mailbox():
 
 			make_osm_line ("amenity", "post_box")
 			make_osm_line ("ref:posten", box.find('ns0:Enhetsnr', ns).text)
-#			make_osm_line ("posten:id", box.find('ns0:IDEnhet', ns).text)
 			make_osm_line ("brand", "Posten")
 
-#			operator = box.find('ns0:ConnectedOffice/ns0:EnhetsNavn', ns)
+#			operator = box.find('ns0:ConnectedOffice/ns0:EnhetsNavn', ns)  # Responsible post office (data not complete)
 #			if operator != None:
 #				make_osm_line ("operator", operator.text)
 
