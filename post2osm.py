@@ -13,7 +13,7 @@ import urllib.request
 from xml.etree import ElementTree
 
 
-version = "1.1.0"
+version = "1.2.0"
 
 
 transform_name = [
@@ -224,7 +224,7 @@ def process_post_offices():
 				name = name.replace("Posten ", "")
 				alt_name = operator + " pakkeutlevering"
 				make_osm_line ("amenity", "post_office")
-				make_osm_line("post_office", "post_annex")
+				make_osm_line("post_office", "post_partner")
 
 			elif office_type == "32":  # Postpunkt (operated by Posten)
 				operator = "Posten"
@@ -340,7 +340,7 @@ def process_mailbox():
 				make_osm_line ("GEOCODE", "yes")
 
 			make_osm_line ("amenity", "post_box")
-			make_osm_line ("ref:posten", box.find('ns0:Enhetsnr', ns).text)
+			make_osm_line ("ref:posten_box", box.find('ns0:Enhetsnr', ns).text)
 			make_osm_line ("brand", "Posten")
 
 #			operator = box.find('ns0:ConnectedOffice/ns0:EnhetsNavn', ns)  # Responsible post office (data not complete)
@@ -359,7 +359,7 @@ def process_mailbox():
 			address_line += address.find('ns0:Postnr', ns).text.strip() + " " + address.find('ns0:Poststed', ns).text
 
 			make_osm_line ("ADDRESS", address_line)
-#			make_osm_line ("MUNICIPALITY", address.find('ns0:Kommune', ns).text)
+			make_osm_line ("MUNICIPALITY", address.find('ns0:Kommune', ns).text)
 #			make_osm_line ("COUNTY", address.find('ns0:Fylke', ns).text)
 			make_osm_line ("LOCATION", box.find('ns0:Beliggenhet', ns).text)	
 
